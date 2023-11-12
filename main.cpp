@@ -29,7 +29,7 @@ auto __stdcall D3DPresentHook(SAMP::CallBacks::HookedStructs::stPresentParams* p
 		if (ImGui::Begin(u8"test menu", &menu, ImGuiWindowFlags_::ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar)) {
 			Plugin::pauseScreen(true);
 
-			ImGui::Checkbox(u8"Запретить серверу изменять время", &btime);
+			ImGui::Checkbox(u8"Р—Р°РїСЂРµС‚РёС‚СЊ СЃРµСЂРІРµСЂСѓ РёР·РјРµРЅСЏС‚СЊ РІСЂРµРјСЏ", &btime);
 			if (btime) {
 				unsigned long data = 0x000008C2; // if time changing is deny
 				WriteProcessMemory(GetCurrentProcess(), reinterpret_cast<void*>(SAMP::pSAMP->GetBase() + 0xA03A0), &data, 4, NULL); // r3
@@ -39,16 +39,16 @@ auto __stdcall D3DPresentHook(SAMP::CallBacks::HookedStructs::stPresentParams* p
 				WriteProcessMemory(GetCurrentProcess(), reinterpret_cast<void*>(SAMP::pSAMP->GetBase() + 0xA03A0), &data, 4, NULL); // r3
 			}
 			if (Save::bWeatChanger)
-				CWeather::ForceWeatherNow(Save::weather);
+				CWeather::ForceWeatherNow(Save::weather); // plugin-sdk func
 
 			if (Save::bTimeChanger)
-				CClock::SetGameClock(Save::time, 0, 0);
-			ImGui::Checkbox(u8"Смена погоды", &Save::bWeatChanger); ImGui::SameLine(202); ImGui::Button(u8"Выбрать##Weather", { 70, 0 });
+				CClock::SetGameClock(Save::time, 0, 0); // plugin-sdk func
+			ImGui::Checkbox(u8"РЎРјРµРЅР° РїРѕРіРѕРґС‹", &Save::bWeatChanger); ImGui::SameLine(202); ImGui::Button(u8"Р’С‹Р±СЂР°С‚СЊ##Weather", { 70, 0 });
 			if (ImGui::BeginPopupContextItem(0, 0))
 			{
-				if (ImGui::BeginMenuBar()) ImGui::TextUnformatted(u8"Смена погоды"), ImGui::EndMenuBar();
-				ImGui::Checkbox(u8"Погода", &Save::bWeatChanger); ImGui::SameLine(100); ImGui::SameLine(150); ImGui::PushItemWidth(70); ImGui::SliderInt(u8"##Weather", &Save::weather, 0, 20);
-				ImGui::Checkbox(u8"Время", &Save::bTimeChanger); ImGui::SameLine(150); ImGui::SliderInt(u8"##Time", &Save::time, 0, 24); ImGui::PopItemWidth();
+				if (ImGui::BeginMenuBar()) ImGui::TextUnformatted(u8"РЎРјРµРЅР° РїРѕРіРѕРґС‹"), ImGui::EndMenuBar();
+				ImGui::Checkbox(u8"РџРѕРіРѕРґР°", &Save::bWeatChanger); ImGui::SameLine(100); ImGui::SameLine(150); ImGui::PushItemWidth(70); ImGui::SliderInt(u8"##Weather", &Save::weather, 0, 20);
+				ImGui::Checkbox(u8"Р’СЂРµРјСЏ", &Save::bTimeChanger); ImGui::SameLine(150); ImGui::SliderInt(u8"##Time", &Save::time, 0, 24); ImGui::PopItemWidth();
 				ImGui::EndPopup();
 
 			}
@@ -64,13 +64,13 @@ auto __stdcall D3DPresentHook(SAMP::CallBacks::HookedStructs::stPresentParams* p
 				*(float*)(0xCFFA11) = Save::lod;
 			}
 
-			ImGui::Checkbox(u8"Дальность прорисовки", &Save::bFoggestChanger); ImGui::SameLine(202); ImGui::Button(u8"Выбрать##Fog", {70, 0});
+			ImGui::Checkbox(u8"Р”Р°Р»СЊРЅРѕСЃС‚СЊ РїСЂРѕСЂРёСЃРѕРІРєРё", &Save::bFoggestChanger); ImGui::SameLine(202); ImGui::Button(u8"Р’С‹Р±СЂР°С‚СЊ##Fog", {70, 0});
 			if (ImGui::BeginPopupContextItem(0, 0))
 			{
-				if (ImGui::BeginMenuBar()) ImGui::TextUnformatted(u8"Дальность прорисовки"), ImGui::EndMenuBar();
-				ImGui::Checkbox(u8"Туман", &Save::bFogChanger); ImGui::SameLine(100); ImGui::SameLine(150); ImGui::PushItemWidth(70); ImGui::SliderInt(u8"##Fog", &Save::fog, 50, 3600);
+				if (ImGui::BeginMenuBar()) ImGui::TextUnformatted(u8"Р”Р°Р»СЊРЅРѕСЃС‚СЊ РїСЂРѕСЂРёСЃРѕРІРєРё"), ImGui::EndMenuBar();
+				ImGui::Checkbox(u8"РўСѓРјР°РЅ", &Save::bFogChanger); ImGui::SameLine(100); ImGui::SameLine(150); ImGui::PushItemWidth(70); ImGui::SliderInt(u8"##Fog", &Save::fog, 50, 3600);
 				ImGui::Checkbox(u8"LOD's", &Save::bLodChanger); ImGui::SameLine(150); ImGui::SliderInt(u8"##Lod", &Save::lod, 1, 300); ImGui::PopItemWidth();
-				if (ImGui::Button(u8"Восстановить по умолчанию")) {
+				if (ImGui::Button(u8"Р’РѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ")) {
 					*(float*)(fogdist) = 300;
 					Save::fog = 300;
 					*(float*)(0xCFFA11) = 200;
